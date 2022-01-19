@@ -6,7 +6,7 @@ import utils.Datos;
 
 public class Colegiado {
 	private long id;
-	private Categoria categoria; //Examen 3 Ejercicio 3
+	private Categoria categoria; // Examen 3 Ejercicio 3
 	private DatosPersona persona;
 
 	public Colegiado(long id, Categoria categoria) {
@@ -43,7 +43,7 @@ public class Colegiado {
 		return this.persona.toString();
 	}
 
-	//Examen 3 Ejercicio 3
+	// Examen 3 Ejercicio 3
 	public static Colegiado nuevoColegiado() {
 		Colegiado ret = null;
 		long id = -1;
@@ -80,6 +80,22 @@ public class Colegiado {
 
 		ret = new Colegiado(id, cat, dp);
 		return ret;
+	}
+
+	// Ejercicio 2 examen 5
+
+	/*
+	 * metodo toString que devuelve los datos de un Colegiado. Llamamos a los
+	 * métodos getNombre(), getNifnie(), getFechaNac(), getTelefono() y getClass()
+	 * para obtener los resultados La estructura del método toString deberá ser del
+	 * tipo: 7. Hector Calvo Blanco (76234511P) nacido el 1984, tfno: 688257823
+	 * CAT=Senior
+	 */
+
+	@Override
+	public String toString() {
+		return id + "." + persona.getNombre() + "(" + persona.getNifnie() + ")" + "nacido el" + persona.getFechaNac()
+				+ ", tfno: " + persona.getTelefono() + "CAT=" + persona.getClass();
 	}
 
 }
