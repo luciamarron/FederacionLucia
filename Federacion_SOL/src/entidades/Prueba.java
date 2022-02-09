@@ -200,12 +200,28 @@ public class Prueba {
 		}
 	}
 
+	//Ejercicio 4 examen 6
 	@Override
 	public String toString() {
-		return "Prueba [id=" + id + ", nombre=" + nombre + ", fecha=" + fecha + ", individual=" + individual
-				+ ", lugar=" + lugar + ", arbitraje=" + Arrays.toString(arbitraje) + ", resultado=" + resultado
-				+ ", participantes=" + Arrays.toString(participantes) + "]";
+		String ret ="";
+		
+		ret += this.id + ". "  + this.nombre + "( " + this.getFecha() + ") en " +  this.getLugar().getNombre()  + " de tipo " + (this.isIndividual()?"individual":"colectiva");
+		
+		if(this.hayEquipoArbitral()) {
+			ret += this.nombresEquipoArbitral(); 
+		}
+		
+		//no sé cómo acceder al id del participante, al dorsal y a la calle (he puesto getResultado para que no de error
+		if(this.cerrada()) {
+			Resultado r = this.getResultado();
+			ret +="Primer puesto:" + this.getResultado().getId() + ",con el dorsal" + this.getResultado()+ "por la calle" + this.getResultado() + "Oro#" + this.getResultado().getPrimero() +"."
+					+ "Segundo puesto" + this.getResultado().getId()+ ",con el dorsal" + this.getResultado() + "por la calle" + this.getResultado() +"Oro#" + this.getResultado().getSegundo() +"."
+							+ "Tercer puesto" +  this.getResultado().getId() +",con el dorsal" + this.getResultado()+ "por la calle" + this.getResultado()+"Oro#" + this.getResultado().getTercero() +".";
+		}
+		
+		return ret;
 	}
+
 
 	// Ejercicio 2, parte B
 	public static Prueba nuevaPrueba() {
@@ -253,5 +269,7 @@ public class Prueba {
 		ret = new Prueba(id, nombre, fecha, lugar, ind);
 		return ret;
 	}
+	
+	
 
 }

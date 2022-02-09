@@ -1,5 +1,11 @@
 package entidades;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
 import Validaciones.Validacion;
@@ -11,6 +17,7 @@ public class Manager {
 	private String direccion;
 
 	private DatosPersona persona;
+	
 
 	public Manager(long id, String telefono, String direccion) {
 		super();
@@ -26,6 +33,9 @@ public class Manager {
 		this.telefono = telefono;
 		this.direccion = direccion;
 		this.persona = dp;
+	}
+
+	public Manager() {
 	}
 
 	public long getId() {
@@ -104,6 +114,45 @@ public class Manager {
 		return id + persona.getNombre() + "(" + persona.getNifnie() + ")" + "del año " + persona.getFechaNac() + "Tfno1: " + telefono + ",Tfno2: " + persona.getTelefono() ;
 	}
 	
+	//Ejercicio 3 examen 6
+	public String data() {
+		String ret = "";
+		ret = persona.getId() + "|" + persona.getNombre() + "|" + persona.getFechaNac() + "|" + persona.getTelefono() + "|" + this.getId() + "|" + this.telefono + "|" + this.direccion;
+		return ret;
+	}
 	
+	/*
+	 * Metodo exportarManagers que genera un txt en el que imprimirá los mánagers
+	 */
+	public static void exportarManagers() {
 
+		System.out.println("Guardando datos en managers.txt");
+
+		File fOut = new File("managers.txt");
+		FileWriter fw = null;
+		BufferedWriter bw = null;
+		String data;
+
+		try {
+			fw = new FileWriter(fOut);
+			bw = new BufferedWriter(fw);
+			//lo importamos desde la clase datos
+			for (int i=0; i < Datos.MANAGERS.length; i++) {
+				Manager m = new Manager();
+				m = Datos.MANAGERS[i];
+				bw.write(m.data() + "\n");
+				bw.close();
+			}
+
+		} catch (IOException e) {
+			{
+				e.printStackTrace();
+			}
+
+		} finally {
+
+		}
+	}
 }
+
+//no me ha dado tiempo a incluir los ficheros de exportacion en las carpetas

@@ -1,5 +1,18 @@
 package principal;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 import entidades.*;
@@ -364,10 +377,6 @@ public class Principal4 {
 		System.out.println("" + "0. Volver");
 	}
 
-	private static boolean login(Credenciales cred) {
-		// Por el momento siempre devolverÃ¡ true
-		return true;
-	}
 	
 	//Ejercicio 6 examen 5
 	/*
@@ -378,5 +387,64 @@ public class Principal4 {
 * todos los datos que me solicito el usuario y pasarselos por pantalla (el tipo, el rango de % de la pureza, la fecha o si la medalla fue asignada
 * o no.
 	 */
-
+	
+	//Ejercicio 1 examen 6
+	private static boolean login(Credenciales cred) {
+		boolean credenciales_correctas = false;
+		
+		ObjectInputStream ois = null;
+		try {
+			File f = new File ("credenciales.txt");
+			FileInputStream fis = new FileInputStream(f);
+			ois = new ObjectInputStream(fis);
+			
+			while (true) {
+				Credenciales c = (Credenciales) ois.readObject();
+				
+				if(cred.getUsuario() == c.getUsuario()) {
+					if(cred.getPassword() == c.getUsuario()) {
+						credenciales_correctas = true;
+					}
+				}
+			}
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				System.out.println("ERROR");
+			} finally {
+				try {
+					ois.close();
+					return credenciales_correctas;
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			return credenciales_correctas;
+		}
+	
+	
+	//Ejercicio 2 examen 6
+	private static void exportamosJuniors() {
+		try {
+			File f = new File("juniors.dat");
+			FileOutputStream fos = new FileOutputStream(f);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			
+			for (Atleta a : Datos.ATLETAS) {
+				
+				DatosPersona dp = a.getPersona();
+				if (dp.getFechaNac().isAfter(LocalDate.of(2000, 1, 1))){
+					oos.writeObject(a);
+				}
+				oos.close();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		finally {}
 }
+}
+
