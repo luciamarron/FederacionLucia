@@ -18,7 +18,7 @@ public class Validacion {
 	public static boolean validarTelefono(String tfn) {
 		return tfn.trim().chars().allMatch(Character::isDigit);
 	}
-
+///9FEB
 	/**
 	 * Valida que una cadena de caracteres contiene letras o espacios Ãºnicamente,
 	 * longitud entre 3 y 50 caractreres
