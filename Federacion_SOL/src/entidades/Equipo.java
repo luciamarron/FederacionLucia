@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 public class Equipo extends Participante {
 	private long idEquipo;
 	private int anioinscripcion;
+	public String nombre;
 	private Manager manager;
 	private Atleta[] atletas;
 
@@ -28,28 +29,6 @@ public class Equipo extends Participante {
 	public long getId() {
 		return idEquipo;
 	}
-	@Override
-	public void setId(long id) {
-		this.idEquipo = id;
-	}
-	public int getAnioinscripcion() {
-		return anioinscripcion;
-	}
-	public void setAnioinscripcion(int anioinscripcion) {
-		this.anioinscripcion = anioinscripcion;
-	}
-	public Manager getManager() {
-		return manager;
-	}
-	public void setManager(Manager manager) {
-		this.manager = manager;
-	}
-	public Atleta[] getAtletas() {
-		return atletas;
-	}
-	public void setAtletas(Atleta[] atletas) {
-		this.atletas = atletas;
-	}
 
 	//Ejercicio 3
 	@Override
@@ -62,6 +41,46 @@ public class Equipo extends Participante {
 		}
 		ret += "Valido durante el " + anioinscripcion;
 		return ret;
+	}
+
+	public long getIdEquipo() {
+		return idEquipo;
+	}
+
+	public void setIdEquipo(long idEquipo) {
+		this.idEquipo = idEquipo;
+	}
+
+	public int getAnioinscripcion() {
+		return anioinscripcion;
+	}
+
+	public void setAnioinscripcion(int anioinscripcion) {
+		this.anioinscripcion = anioinscripcion;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public Manager getManager() {
+		return manager;
+	}
+
+	public void setManager(Manager manager) {
+		this.manager = manager;
+	}
+
+	public Atleta[] getAtletas() {
+		return atletas;
+	}
+
+	public void setAtletas(Atleta[] atletas) {
+		this.atletas = atletas;
 	}
 
 

@@ -446,5 +446,62 @@ public class Principal4 {
 		}
 		finally {}
 }
+	
+	//Ejercicio 2 examen 7
+	private static void exportamosColegiados() {
+		try {
+			
+			
+			for (Colegiado c : Datos.COLEGIADOS) {
+				
+				if (c.getCategoria() == Categoria.JUNIOR) {
+				String path = "colegiadoJunior.dat";
+				FileOutputStream fos = new FileOutputStream(path, false);
+				ObjectOutputStream escritor = new ObjectOutputStream(fos);
+
+
+
+				escritor.writeObject((Colegiado) c);
+				escritor.flush();
+				escritor.close();
+				}
+				
+				
+				if (c.getCategoria() == Categoria.SENIOR) {
+				String path = "colegiadoSenior.dat";
+				FileOutputStream fos = new FileOutputStream(path, false);
+				ObjectOutputStream escritor = new ObjectOutputStream(fos);
+
+
+
+				escritor.writeObject((Colegiado) c);
+				escritor.flush();
+				escritor.close();
+				}
+				
+				
+				if (c.getCategoria() == Categoria.ESPECIAL) {
+				String path = "colegiadoEspecial.dat";
+				FileOutputStream fos = new FileOutputStream(path, false);
+				ObjectOutputStream escritor = new ObjectOutputStream(fos);
+
+
+				escritor.writeObject((Colegiado) c);
+				escritor.flush();
+				escritor.close();
+				}
+
+				
+			}
+				
+		} catch (FileNotFoundException e) {
+			System.out.println("Excepcion FileNotFoundException" + e.getMessage());
+		} catch (IOException e) {
+			System.out.println("Excepcion IOException" + e.getMessage());
+		} catch (Exception e) {
+			System.out.println("Exception" + e.getMessage());
+		}
+	}
 }
+			
 
