@@ -164,8 +164,6 @@ public class Manager {
 	}
 
 
-//no me ha dado tiempo a incluir los ficheros de exportacion en las carpetas
-
 //Ejercicio 3 examen 7 
 	
 //Función que recorre los datos del array equipos y busca qué manager lo representa
@@ -224,5 +222,62 @@ public static String DatosDelManagerEquipo() {
 	
 	return ret;
 	}
-
 }
+
+//ejercicio 3 examen 8
+public static String DatosManagerEquipo2() {
+	
+	String ret = "";
+	File fichero = new File("manager.txt");
+	FileReader lector = null;
+	BufferedReader buffer = null;
+	try {
+		try {
+			lector = new FileReader(fichero);
+			buffer = new BufferedReader(lector);
+			String linea;
+			while ((linea = buffer.readLine()) != null) {
+				String[] datos = linea.split("\\|");
+				String idPersona = datos[0];
+				String nombreManager = datos[1];
+				String documentacionManager = datos[2];
+				String fechaNacManager = datos[3];
+				String telefonoPersona = datos[4];
+				String idManager = datos[5];
+				String telefonoManager = datos[6];
+				String direccionManager = datos[7]; 
+	
+				for (Equipo eq : Datos.EQUIPOS) {
+					if (Long.valueOf(idManager) == eq.getManager().getId()) {
+						eq.getAtletas();
+						ret = ("D./Dña. "+ nombreManager + "con NIF:NIE " + documentacionManager + "nacido el" + fechaNacManager +
+								"representa al equipo" + eq.getNombre() + "de id" + eq.getId() + "durante el año" + eq.getAnioinscripcion() +
+								", el cual está formado por los siguientes atletas: \t" + eq.getAtletas().toString() + "\n" );
+					} 
+					else {
+						ret = ("El manager" + nombreManager + "de id" + idManager +  "no representa a ningún equipo.");
+					}
+		
+				} 
+	
+			}
+		} finally {
+			if (buffer != null) {
+				buffer.close();
+			}
+			if (lector != null) {
+				lector.close();
+			}
+		}
+			} catch (FileNotFoundException e) {
+				System.out.println("Se produjo una FileNotFoundException" + e.getMessage());
+			} catch (IOException e) {
+				System.out.println("Se produjo una IOException" + e.getMessage());
+			} catch (Exception e) {
+				System.out.println("Se produjo una Exception" + e.getMessage());
+			} 
+	
+	return ret;
+	}
+}
+
