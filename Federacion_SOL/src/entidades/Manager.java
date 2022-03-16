@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -87,6 +88,8 @@ public class Manager {
 			id = in.nextInt();
 			if (id > 0)
 				valido = true;
+			else
+				System.out.println("Valor incorrecto para el identificador.");
 		} while (!valido);
 		valido = false;
 		do {
@@ -104,6 +107,10 @@ public class Manager {
 			if (direccion.length() > 3)
 				valido = true;
 		} while (!valido);
+		
+		System.out.println("Introduzca ahora los datos personales:");
+		in = new Scanner(System.in);
+		dp = DatosPersona.nuevaPersona();
 
 		ret = new Manager(id, telefono, direccion, dp);
 		return ret;
@@ -118,14 +125,14 @@ public class Manager {
 	 */
 	@Override
 	public String toString() {
-		return id + persona.getNombre() + "(" + persona.getNifnie() + ")" + "del año " + persona.getFechaNac()
+		return id + persona.getNombre() + "(" + persona.getNifnie().mostrar() + ")" + "del año " + persona.getFechaNac().getYear()
 				+ "Tfno1: " + telefono + ",Tfno2: " + persona.getTelefono();
 	}
 
 	// Ejercicio 3 examen 6
 	public String data() {
 		String ret = "";
-		ret = persona.getId() + "|" + persona.getNombre() + "|" + persona.getFechaNac() + "|" + persona.getTelefono()
+		ret = persona.getId() + "|" + persona.getNombre() + "|" + persona.getNifnie().mostrar() + persona.getFechaNac().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "|" + persona.getTelefono()
 				+ "|" + this.getId() + "|" + this.telefono + "|" + this.direccion;
 		return ret;
 	}
@@ -133,33 +140,33 @@ public class Manager {
 	/*
 	 * Metodo exportarManagers que genera un txt en el que imprimirá los mánagers
 	 */
-	public static void exportarManagers() {
+	public static void exportarManagers(Manager[] managers) {
 
-		System.out.println("Guardando datos en managers.txt");
-
-		File fOut = new File("managers.txt");
-		FileWriter fw = null;
-		BufferedWriter bw = null;
-		String data;
-
+		String path = "managers.txt";
+		File fichero = new File(path);
+		FileWriter escritor = null;
+		PrintWriter buffer = null;
 		try {
-			fw = new FileWriter(fOut);
-			bw = new BufferedWriter(fw);
-			// lo importamos desde la clase datos
-			for (int i = 0; i < Datos.MANAGERS.length; i++) {
-				Manager m = new Manager();
-				m = Datos.MANAGERS[i];
-				bw.write(m.data() + "\n");
-				bw.close();
+			try {
+				escritor = new FileWriter(fichero, false);
+				buffer = new PrintWriter(escritor);
+				for (Manager m : managers) {
+					buffer.println(m.data());
+				}
+			} finally {
+				if (buffer != null) {
+					buffer.close();
+				}
+				if (escritor != null) {
+					escritor.close();
+				}
 			}
-
+		} catch (FileNotFoundException e) {
+			System.out.println("Se ha producido una FileNotFoundException" + e.getMessage());
 		} catch (IOException e) {
-			{
-				e.printStackTrace();
-			}
-
-		} finally {
-
+			System.out.println("Se ha producido una IOException" + e.getMessage());
+		} catch (Exception e) {
+			System.out.println("Se ha producido una Exception" + e.getMessage());
 		}
 	}
 
@@ -222,7 +229,7 @@ public static String DatosDelManagerEquipo() {
 	
 	return ret;
 	}
-}
+
 
 //ejercicio 3 examen 8
 public static String DatosManagerEquipo2() {

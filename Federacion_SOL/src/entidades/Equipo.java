@@ -12,6 +12,7 @@ import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 import java.util.Scanner;
 
 import Validaciones.Validacion;
@@ -24,8 +25,12 @@ public class Equipo extends Participante {
 	public String nombre;
 	private Manager manager;
 	private Atleta[] atletas;
+	
+	public Equipo() {
+		super();
+	}
 
-	public Equipo(long id, int anioinscripcion, String nombre, Manager manager, Atleta[] atletas) {
+	public Equipo(long id, String nombre, int anioinscripcion, Manager manager, Atleta[] atletas) {
 		super();
 		this.idEquipo = id;
 		this.anioinscripcion = anioinscripcion;
@@ -47,7 +52,7 @@ public class Equipo extends Participante {
 		return idEquipo;
 	}
 
-	//Ejercicio 3
+	//Examen 1 Ejercicio 3
 	@Override
 	public String toString() {
 		String ret = "";
@@ -67,65 +72,49 @@ public class Equipo extends Participante {
 	 */
 
 	public static Equipo nuevoEquipo() {
-		Equipo ret = null;
-		Scanner in;
-		long idEquipo = -1;
-		int anioinscripcion = 0;
-		String nombre = "";
-		Manager manager = null;
-		int nAtletas = -1;
+		Equipo ret = new Equipo();
 		boolean valido = false;
-		do {
-			System.out.println("Introduzca el id del nuevo equipo:");
-			in = new Scanner(System.in);
-			idEquipo = in.nextLong();
-			if (idEquipo > 0)
-				valido = true;
-		} while (!valido);
-		valido = false;
-		do {
-			System.out.println("Introduzca el año de inscripción del nuevo equipo:");
-			in = new Scanner(System.in);
-			anioinscripcion = in.nextInt(); 
-			if (anioinscripcion > 1950)
-				valido = true;
-		} while (!valido);
+		String nombre = "";
+		long id = 0;
+		Scanner in = new Scanner(System.in);
 		do {
 			System.out.println("Introduzca el nombre del nuevo equipo:");
-			in = new Scanner(System.in);
 			nombre = in.nextLine();
-			valido = Validacion.validarNombre(nombre); 
-			if (nombre.length() > 3)
-				valido = true;
+			valido = Validacion.validarNombreEquipo(nombre);
+			if (!valido)
+				System.out.println("El nombre " + nombre + " no es válido.");
+			else {
+				System.out.println("¿Es correcto el nombre elegido:" + nombre + "?");
+				valido = Utilidades.leerBoolean();
+			}
 		} while (!valido);
-		
-		System.out.println("Introduzca ahora los datos del manager:");
-		in = new Scanner(System.in);
-		manager = Manager.nuevoManager();
-		
-		do {
-			System.out.println("Introduce el numero de atletas");
-			nAtletas = in.nextInt();
-			if (nAtletas >= 3 && nAtletas <= 5) {
-			valido = true;
-			} else {
-			System.out.println("introduce un numero valido");
+		valido = false;
+		int anio = LocalDate.now().getYear();
+		Manager manager = Manager.nuevoManager();
+		boolean resp = true;
+		HashSet<Atleta> atletas = new HashSet<Atleta>();
+		System.out.println("Introduzca los datos de los atletas del equipo (entre 3 y 5)");
+		for(int i=1; resp; i++) {
+			System.out.println("Introduzca datos del Atleta "+i+":");
+			Atleta a = Atleta.nuevoAtleta();
+			atletas.add(a);
+			if(atletas.size()>=3) {
+				System.out.println("Ya tendría un equipo válido.");
+				if(atletas.size()<5) {
+					System.out.println("¿Desea introducir otro atleta al equipo?");
+					resp= Utilidades.leerBoolean();
+				}
+				else
+					System.out.println("Ya ha completado el equipo. No puede añadir más atletas.");
+				resp = false;
 			}
-			} while (!valido);
-			System.out.println("introduce los datos de loas " + nAtletas + " atletas");
-			Atleta[] atletas = new Atleta[nAtletas];
-			for (int i = 0; i < nAtletas; i++) {
-			System.out.println("Introduce los datos del " + (i + 1) + " atleta");
-			atletas[i] = Atleta.nuevoAtleta();
-			}
-	
-		System.out.println("¿Los datos introducidos son correctos? Pulse S para si y N para no");
-		boolean datosvalidos = Utilidades.leerBoolean();
-		
-		ret = new Equipo(idEquipo, anioinscripcion, nombre, manager, atletas);
+		}
+		Atleta[] atletasArray = new Atleta[atletas.size()];
+		atletas.toArray(atletasArray);
+		ret = new Equipo(id, nombre, anio, manager, atletasArray);
 		return ret;
-		
 	}
+
 	
 	//apartado b) y c)
 	public static void mostrarManagers() {

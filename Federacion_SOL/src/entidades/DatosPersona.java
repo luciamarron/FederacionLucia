@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import Validaciones.Validacion;
 import utils.Utilidades;
+import validaciones.Validaciones;
 
 public class DatosPersona {
 	private long id;
@@ -13,7 +14,7 @@ public class DatosPersona {
 	private String telefono;
 	private LocalDate fechaNac;
 
-	private Documentacion nifnie;
+	private Documentacion nifnie; //Examen 2 Ejercicio 3.2
 
 	public DatosPersona(long id, String nombre, String telefono, LocalDate fechaNac) {
 		super();
@@ -23,6 +24,7 @@ public class DatosPersona {
 		this.fechaNac = fechaNac;
 	}
 
+	//Examen 2 Ejercicio 3.2
 	public DatosPersona(long id, String nombre, String telefono, LocalDate fechaNac, Documentacion nifnie) {
 		super();
 		this.id = id;
@@ -78,6 +80,8 @@ public class DatosPersona {
 				+ fechaNac.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + ")";
 	}
 
+	// Examen 2 Ejercicio 3.3
+	// Examen 5 Ejercicio 3
 	public static DatosPersona nuevaPersona() {
 		DatosPersona ret = null;
 		Scanner in;
@@ -89,7 +93,10 @@ public class DatosPersona {
 			System.out.println("Introduzca el id de la nueva persona:");
 			in = new Scanner(System.in);
 			id = in.nextInt();
-			if (id > 0)
+			valido = Validacion.validarId(id);
+			if (!valido)
+				System.out.println("ERROR: Valor incorrecto para el identificador.");
+			else
 				valido = true;
 		} while (!valido);
 		valido = false;
@@ -97,31 +104,35 @@ public class DatosPersona {
 			System.out.println("Introduzca el nombre de la nueva persona:");
 			in = new Scanner(System.in);
 			nombre = in.nextLine();
-			valido = Validacion.validarNombre(nombre); 
-			if (nombre.length() > 3)
-				valido = true;
+			valido = Validacion.validarNombre(nombre);
+			if (!valido)
+				System.out.println("ERROR: El valor introducido para el nombre no es válido. ");
 		} while (!valido);
 		do {
-			System.out.println("Introduzca el telefono de la nueva persona:");
+			System.out.println("Introduzca el teléfono de la nueva persona:");
 			in = new Scanner(System.in);
 			tfn = in.nextLine();
 			valido = Validacion.validarTelefono(tfn);
-			if (tfn.length() > 3)
-				valido = true;
+			if (!valido)
+				System.out.println("ERROR: El valor introducido para el teléfono no es válido. ");
 		} while (!valido);
 		System.out.println("Introduzca la fecha de nacimiento de la nueva persona");
 		LocalDate fecha = Utilidades.leerFecha();
-		System.out.println("Â¿Va a introducir un NIF? (pulse 'S' par SÃ� o 'N' para NIE)");
+		System.out.println("¿Va a introducir un NIF? (pulse 'S' par SÍ o 'N' para NIE)");
 		boolean esnif = Utilidades.leerBoolean();
 		Documentacion doc;
-		if (esnif)
-			doc = NIF.nuevoNIF();
-		else
-			doc = NIE.nuevoNIE();
-
+		valido = false;
+		do {
+			if (esnif)
+				doc = NIF.nuevoNIF();
+			else
+				doc = NIE.nuevoNIE();
+			valido = doc.validar();
+			if (!valido)
+				System.out.println("ERROR: El documento introducido no es válido.");
+		} while (!valido);
 		ret = new DatosPersona(id, nombre, tfn, fecha, doc);
 		return ret;
 	}
-
 
 }

@@ -86,16 +86,16 @@ public class Colegiado {
 
 	/*
 	 * metodo toString que devuelve los datos de un Colegiado. Llamamos a los
-	 * métodos getNombre(), getNifnie(), getFechaNac(), getTelefono() y getClass()
-	 * para obtener los resultados La estructura del método toString deberá ser del
+	 * mï¿½todos getNombre(), getNifnie(), getFechaNac(), getTelefono() y getClass()
+	 * para obtener los resultados La estructura del mï¿½todo toString deberï¿½ ser del
 	 * tipo: 7. Hector Calvo Blanco (76234511P) nacido el 1984, tfno: 688257823
 	 * CAT=Senior
 	 */
 
 	@Override
 	public String toString() {
-		return id + "." + persona.getNombre() + "(" + persona.getNifnie() + ")" + "nacido el" + persona.getFechaNac()
-				+ ", tfno: " + persona.getTelefono() + "CAT=" + persona.getClass();
+		return "" + id + "." + persona.getNombre() + "(" + persona.getNifnie().mostrar() + ")" + "nacido el" + persona.getFechaNac().getYear()
+				+ ", tfno: " + persona.getTelefono() + "CAT=" + categoria.getNombre();
 	}
 
 }

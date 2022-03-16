@@ -2,6 +2,9 @@ package entidades;
 
 import java.util.Scanner;
 
+import Validaciones.Validacion;
+import validaciones.Validaciones;
+
 public class Competicion {
 	private long id;
 	private String nombre;
@@ -65,7 +68,7 @@ public class Competicion {
 		this.pruebas = pruebas;
 	}
 
-	//Ejercicio 2, parte A
+	//Examen 1 Ejercicio 2, parte A
 	public static Competicion nuevaCompeticion() {
 		Competicion ret = null;
 		Scanner in;
@@ -77,7 +80,10 @@ public class Competicion {
 			System.out.println("Introduzca el id de la nueva competicion:");
 			in = new Scanner(System.in);
 			id = in.nextInt();
-			if (id > 0)
+			valido = Validacion.validarId(id);
+			if (!valido)
+				System.out.println("ERROR: Valor incorrecto para el identificador.");
+			else
 				valido = true;
 		} while (!valido);
 		valido = false;
@@ -85,7 +91,10 @@ public class Competicion {
 			System.out.println("Introduzca el nombre de la nueva competicion:");
 			in = new Scanner(System.in);
 			nombre = in.nextLine();
-			if (nombre.length() > 3)
+			valido = Validacion.validarNombre(nombre);
+			if (!valido)
+				System.out.println("ERROR: Valor incorrecto para el nombre.");
+			else
 				valido = true;
 		} while (!valido);
 		valido = false;
@@ -93,7 +102,10 @@ public class Competicion {
 			System.out.println("Introduzca el anio de la nueva competicion:");
 			in = new Scanner(System.in);
 			anio = in.nextInt();
-			if (anio >= 0)
+			valido = Validacion.validarAnio(anio);
+			if (!valido)
+				System.out.println("ERROR: Valor incorrecto para el año.");
+			else
 				valido = true;
 		} while (!valido);
 		valido = false;
@@ -104,13 +116,19 @@ public class Competicion {
 			npruebas = in.nextInt();
 			if (npruebas > 0)
 				valido = true;
+			else
+				System.out.println("Valor incorrecto para el nº de pruebas.");
 		} while (!valido);
+
+		System.out.println("Introduzca ahora los datos de las " + npruebas + " pruebas de la nueva competición:");
 		Prueba[] pruebas = new Prueba[npruebas];
 		for (int i = 0; i < npruebas; i++) {
+			System.out.println("Introduzca los datos de la " + (i + 1) + "ª prueba de la nueva competición.");
 			pruebas[i] = Prueba.nuevaPrueba();
 		}
 		ret = new Competicion(id, nombre, anio, pruebas);
 		return ret;
 	}
+
 
 }
